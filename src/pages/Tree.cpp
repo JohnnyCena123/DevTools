@@ -1,10 +1,6 @@
-#include "../fonts/FeatherIcons.hpp"
 #include <Geode/utils/cocos.hpp>
 #include "../DevTools.hpp"
 #include "../platform/utils.hpp"
-#ifndef GEODE_IS_WINDOWS
-#include <cxxabi.h>
-#endif
 
 using namespace geode::prelude;
 
@@ -24,7 +20,7 @@ void DevTools::drawTreeBranch(CCNode* node, size_t index) {
         flags |= ImGuiTreeNodeFlags_OpenOnArrow;
     }
     std::stringstream name;
-    name << "[" << index << "] " << getNodeName(node) << " ";
+    name << "[" << index << "] " << getNodeName(node) GEODE_WINDOWS(.c_str() + 6) << " ";
     if (node->getTag() != -1) {
         name << "(" << node->getTag() << ") ";
     }
@@ -37,6 +33,11 @@ void DevTools::drawTreeBranch(CCNode* node, size_t index) {
     // The order here is unusual due to imgui weirdness; see the second-to-last paragraph in https://kahwei.dev/2022/06/20/imgui-tree-node/
     bool expanded = ImGui::TreeNodeEx(node, flags, "%s", name.str().c_str());
     if (ImGui::IsItemClicked()) { 
+        if (m_selectedNode) {
+	    	m_selectedNode->setUserObject("input-texture-name"_spr, nullptr);
+	    	m_selectedNode->setUserObject("show-input-not-changed"_spr, nullptr);
+		    m_selectedNode->setUserObject("show-texture-not-found"_spr, nullptr);
+        }
         DevTools::get()->selectNode(node);
         selected = true;
     }

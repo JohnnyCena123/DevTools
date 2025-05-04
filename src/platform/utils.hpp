@@ -9,7 +9,7 @@
 
 static inline std::string getNodeName(cocos2d::CCObject* node) {
 #ifdef GEODE_IS_WINDOWS
-    return typeid(*node).name() + 6;
+    return typeid(*node).name();
 #else 
     std::string ret;
 

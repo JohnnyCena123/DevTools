@@ -10,6 +10,7 @@
 #include "Geode/platform/windows.hpp"
 #include "imgui.h"
 #include <ccTypes.h>
+#include <Geode/ui/SimpleAxisLayout.hpp>
 #include <Geode/ui/Layout.hpp>
 #include <misc/cpp/imgui_stdlib.h>
 
